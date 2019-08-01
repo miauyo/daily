@@ -1,0 +1,62 @@
+name: Daily Commit
+
+on:
+  schedule:
+    # 每天北京时间 9:00 执行 (UTC 1:00)
+    - cron: '0 1 * * *'
+  workflow_dispatch: # 允许手动触发
+
+jobs:
+  daily-commit:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0  # 获取完整历史记录
+        token: ${{ secrets.GITHUB_TOKEN }}
+    
+    - name: Configure Git
+      run: |
+        git config --global user.name "晓东"
+        git config --global user.email "i@miauyo.com"
+    
+    - name: Daily commit
+      run: |
+        # 获取当前日期
+        current_date=$(date +%Y-%m-%d)
+        current_time=$(date +%H:%M:%S)
+        
+        # 生成随机数决定是否多次提交 (25% 概率)
+        random_chance=$((RANDOM % 100))
+        
+        if [ $random_chance -lt 25 ]; then
+          # 随机多次提交 (2-4次)
+          commit_count=$((RANDOM % 3 + 2))
+          echo "🎲 今天是活跃日！将进行 $commit_count 次提交"
+          
+          for ((i=1; i<=commit_count; i++)); do
+            # 生成随机时间间隔
+            sleep_time=$((RANDOM % 10 + 1))
+            sleep $sleep_time
+            
+            # 随机选择提交类型
+            commit_types=("🐛 修复小问题" "✨ 代码优化" "📝 更新文档" "🎨 样式调整" "⚡ 性能提升" "🔧 配置更新" "✅ 测试完善" "🚀 功能改进")
+            type_index=$((RANDOM % ${#commit_types[@]}))
+            commit_msg="${commit_types[$type_index]}"
+            
+            echo "提交 $i/$commit_count: $commit_msg"
+            git commit --allow-empty -m "$commit_msg" --date="$(date)"
+          done
+        else
+          # 正常单次打卡
+          echo "✅ 今日正常打卡"
+          git commit --allow-empty -m "📅 每日打卡: $current_date" --date="$(date)"
+        fi
+    
+    - name: Push changes
+      run: |
+        git push origin main
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
