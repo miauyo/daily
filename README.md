@@ -83,7 +83,7 @@
   
 <img src="https://github-readme-streak-stats.herokuapp.com/?user=miauyo&theme=tokyonight&hide_border=true&background=0d1117&stroke=79ff97&ring=ff6b6b&fire=ff6b6b&currStreakLabel=79ff97" alt="GitHub Streak" />
 
-<img src="https://github-readme-activity-graph.vercel.app/graph?username=miauyo&bg_color=0d1117&color=79ff97&line=79ff97&point=ff6b6b&area=true&hide_border=true&custom_title=贡献活动图 | Contribution Activity Graph" />
+<img src="https://github-readme-activity-graph.vercel.app/graph?username=miauyo&bg_color=0d1117&color=79ff97&line=79ff97&point=ff6b6b&area=true&hide_border=true&custom_title=贡献活动图" />
 
 </div>
 
